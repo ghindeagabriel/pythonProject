@@ -1,0 +1,145 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <title>News List</title>
+    {# MEDIUM STYLE EDITOR#}
+    <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'news_app/post_item.css?rand=23423423' %}" media="screen">
+
+    <script>
+      function addComment(){
+        var x = document.getElementById("comment_div");
+        if (x.style.display === "none"){
+          x.style.display = "block";
+        } else{
+          x.style.display = "none";
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="menu-wrapper">
+      <div id="menu">
+        <ul>
+          <li class="li_menu">
+            <div class="nav" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="one"></div>
+              <div class="two"></div>
+              <div class="three"></div>
+            </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list' %}">Cele mai noi stiri</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='FOTBAL' %}">Fotbal</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='TENIS' %}">Tenis</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='HANDBAL' %}">Handbal</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='BASKET' %}">Basket</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='ALTE_SPORTURI' %}">Alte sporturi</a>
+              <a class="dropdown-item" style="text-transform: none;" href="{% url 'post_list_category' category='STIRI_EXTERNE' %}">Stiri externe</a>
+            </div>
+          </li>
+          {% if user.is_authenticated %}
+            <div class="user_box">
+              <div class="user_box_left">{{ user.get_username }}</div>
+              {% if user.userprofileinfo.profile_pic != "" %}
+                <!--<img src="{{ user.profile_pic }}" class="default_profile">-->
+                <div class="dropdown">
+                  <img src="{{ user.userprofileinfo.profile_pic.url }}" class="default_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% if request.user.is_superuser %}
+                      <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'profile_page' username=user.get_username %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a>
+                  </div>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                  <img src="{% static 'images/profile_default.png' %}" class="default_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% if request.user.is_superuser %}
+                      <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'profile_page' username=user.get_username %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% else %}
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'user_login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <!-- end #menu -->
+    </div>
+
+      <div id="wrapper">
+        <div id="header-wrapper">
+          <div id="header">
+            <div id="logo">
+            </div>
+          </div>
+        </div>
+
+        <div id="page">
+          <div id="page-bgtop">
+            <div id="page-bgbtm">
+              <div id="content">
+                <div class="post">
+                  <div class="entry">
+                    <div><img src="{{ post.image_title.url }}" /></div>
+                  </div>
+                  <h2 class="title">{{ post.title }}</h2>
+                  <p class="meta">Postat de <strong>{{ post.author }}</strong> in data de {{ post.published_date }}  &nbsp;&bull;&nbsp;</p>
+                  <p class="post_p">{{ post.text|linebreaksbr }}</p>
+                </div>
+                <div style="clear: both;">&nbsp;</div>
+                <h3 id="comentarii">Comentarii:</h3>
+                <br>
+                {% if user.is_authenticated %}
+                  <a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+                {% endif %}
+                <div class="container">
+
+
+                {% for comment in post.comments.all %}
+                  <br>
+                  {% if comment.get_user_by_author.userprofileinfo.profile_pic != "" %}
+                    <a href="{% url 'viewed_profile' comment_author=comment.author %}"><img src="{{ comment.get_user_by_author.userprofileinfo.profile_pic.url }}" height="25px" width="25px" /></a>
+                  {% else %}
+                    <a href="{% url 'viewed_profile' comment_author=comment.author %}"><img src="{% static 'images/profile_default.png' %}" height="25px" width="25px" /></a>
+                  {% endif %}
+                  Postat de <strong>{{ comment.author }}</strong> in data de {{ comment.created_date }}
+                  {% if request.user.is_superuser %}
+                      <a class="delete_button" href="{% url 'comment_remove' pk=comment.pk %}"><i class="fa fa-close"></i></a>
+                  {% endif %}
+                  <div id="p_text">{{ comment.text|safe|linebreaks }}</div>
+
+                {% empty %}
+                  <p>No comments posted.</p>
+                {% endfor %}
+               </div>
+              </div>
+              <div style="clear: both;">&nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>var editor = new MediumEditor('.editable');</script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>

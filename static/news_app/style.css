@@ -1,0 +1,11 @@
+.item_picture {
+  height: 50%;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+div {
+  display: block;
+}

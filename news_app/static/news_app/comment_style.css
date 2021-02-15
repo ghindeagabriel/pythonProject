@@ -1,0 +1,311 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #737373;
+	background-image: url('/static/images/background_list.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+}
+
+h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+	font-family: 'Arvo', serif;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 2em;
+	margin: auto;
+	width: 60%;
+	padding: 10px 10px 10px 10px;
+}
+
+h2 {
+	font-size: 2.4em;
+}
+
+h3 {
+	font-size: 1.6em;
+}
+
+p, ul, ol {
+	margin-top: 0;
+	line-height: 180%;
+}
+
+ul, ol {
+}
+
+a {
+	text-decoration: none;
+	color: #E42E33;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+img.border {
+	border: 6px solid #EEE7DF;
+}
+
+img.alignleft {
+	float: left;
+	margin-right: 25px;
+}
+
+img.alignright {
+	float: right;
+}
+
+img.aligncenter {
+	margin: 0px auto;
+}
+
+#wrapper {
+	margin: 0 auto;
+	padding: 0;
+}
+
+/* Menu */
+
+#menu-wrapper {
+	height: 60px;
+	background: #0000003d;
+	opacity: 0.8;
+	width: 80%;
+	max-width: 1200px;
+	margin-top: 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#menu {
+	width: 100%;
+	margin: 0px auto;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0px 0px 0px 0px;
+	list-style: none;
+	line-height: normal;
+	text-align: center;
+}
+
+#menu li {
+	display: inline-block;
+}
+
+#menu a {
+	display: block;
+	float: left;
+	height: 50px;
+	margin: 0px;
+	padding: 0px 30px 0px 30px;
+	line-height: 50px;
+	letter-spacing: -1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: 'Arvo', serif;
+	font-size: 14px;
+	font-weight: normal;
+	color: #fff;
+	border: none;
+}
+
+#menu .current_page_item a {
+	background: #E42E33;
+	box-shadow: inset 1px 1px 1px #000;
+	color: #FFFFFF;
+}
+
+#menu a:hover {
+}
+
+
+/* Content */
+
+#content {
+	margin: 100px auto auto auto;
+  width: 70%;
+  padding: 10px;
+}
+
+.post {
+	clear: both;
+	padding: 30px 0px 0px 0px;
+	border-bottom: 1px solid #D9D9D9;
+	text-align: center;
+}
+
+.post .title {
+	padding-top: 10px;
+	letter-spacing: -2px;
+}
+
+.post .title a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	letter-spacing: -0.5px;
+	border: none;
+	color: #E42E33;
+}
+
+.post .title a:hover {
+	color: #024d78;
+	text-decoration: none;
+}
+
+.post .title span{
+	color: #f00;
+}
+
+.post .meta {
+	padding-bottom: 10px;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: italic;
+}
+
+.post .meta a {
+}
+
+.post .entry {
+	text-align: justify;
+	margin-bottom: 25px;
+	padding: 10px 0px 0px 0px;
+}
+
+.post .post_form {
+	margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+
+.post .post_form label {
+	display: none;
+}
+
+.links {
+	display: block;
+	width: 96px;
+	padding: 2px 0px 2px 0px;
+	background: #A53602;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+.form_text {
+	border: 2px solid black;
+	border-radius: 10px;
+	height: 130px;
+	max-width: 100%;
+	width: 500px;
+}
+
+
+.default_profile {
+	border-radius: 50%;
+	height: 45px;
+	width: 45px;
+	margin: auto;
+	padding: 3.5px;
+	line-height: 60px;
+	background-color: #737373;
+	opacity: 0.8;
+  z-index:-1
+}
+
+.dropdown {
+	padding: 8px 0px 10px 0px;
+}
+
+.dropdown-menu {
+	padding: 0;
+	background-color: #00000087;
+}
+
+.dropdown-menu .dropdown-item {
+	background-color: #38383800;
+}
+
+.dropdown-menu .dropdown-item:hover {
+	color: #fff;
+	background-color: #0000006b;
+}
+
+.user_box {
+	float: right;
+	display: inline-block;
+	text-align: center;
+	margin-right: 5px;
+}
+
+.user_box .user_box_left {
+	color: #fff;
+	float: left;
+	margin-top: 25%;
+	margin-right: 10px;
+}
+
+.user_box .dropdown {
+	float: right;
+}
+
+
+.li_menu {
+	float: left;
+}
+
+.nav div {
+	height: 4px;
+	background-color: white;
+	margin: 5px 0;
+	border-radius: 25px;
+	transition: 0.3s;
+}
+
+.nav:hover div {
+	width: 30px;
+}
+
+.nav {
+	background-color: #00000001;
+	width: 30px;
+	display: block;
+	margin: 1.5em 0 0 1em;
+}
+
+.one {
+	width: 30px;
+}
+
+.two {
+	width: 20px;
+}
+
+.three {
+	width: 25px;
+}
+
+
+@media all and (max-width: 600px) {
+	#menu-wrapper, #content {
+		width: 100%;
+	}
+}
+
+@media all and (max-width: 600px) {
+	h1, .post .post_form {
+		width: 90%;
+	}
+}

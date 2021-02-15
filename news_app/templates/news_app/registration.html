@@ -1,0 +1,35 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% static 'news_app/registration.css?rand=23423423' %}" rel='stylesheet' type='text/css' />
+
+    <title></title>
+  </head>
+  <body>
+    <div class="login">
+      <h1>Register</h1>
+      <form method="post" enctype="multipart/form-data" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        {% for message in messages %}
+          <div class="alert alert-success">
+            <p class="p_alert" data-dismiss="alert">{{ message }}</p>
+          </div>
+        {% endfor %}
+
+        <input class="input_box" type="email" name="email" placeholder="Email" required="required">
+        <input class="input_box" type="text" name="username" placeholder="Username" required="required">
+        <input class="input_box" type="password" name="password" placeholder="Password" required="required">
+        <input class="input_normal" type="file" name="profile_pic">
+
+        <button type="submit" class="btn btn-primary btn-block btn-large" name="">Register</button>
+        <br>
+        <span style="color:#307fff;">Aveti deja un cont? Va rugam sa apasati aici </span><a href="{% url 'user_login' %}">Login<a/>
+      </form>
+    </div>
+  </body>
+</html>

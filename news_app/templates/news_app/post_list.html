@@ -1,0 +1,148 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <title>News List</title>
+    <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'news_app/post_list.css?rand=23423423' %}" media="screen">
+  </head>
+  <body>
+      <div id="menu-wrapper">
+        <div id="menu">
+          <ul>
+            {% if user.is_authenticated %}
+              <div class="user_box">
+                <div class="user_box_left">{{ user.get_username }}</div>
+                {% if user.userprofileinfo.profile_pic != "" %}
+                  <!--<img src="{{ user.profile_pic }}" class="default_profile">-->
+                  <div class="dropdown">
+                    <img src="{{ user.userprofileinfo.profile_pic.url }}" class="default_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% if request.user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                      {% endif %}
+                      <a class="dropdown-item" href="{% url 'profile_page' username=user.get_username %}">Profile</a>
+                      <a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a>
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="dropdown">
+                    <img src="{% static 'images/profile_default.png' %}" class="default_profile" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% if request.user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                      {% endif %}
+                      <a class="dropdown-item" href="{% url 'profile_page' username=user.get_username %}">Profile</a>
+                      <a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a>
+                    </div>
+                  </div>
+                  {% endif %}
+              </div>
+            {% else %}
+              <li><a href="{% url 'register' %}">Register</a></li>
+              <li><a href="{% url 'user_login' %}">Login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        <!-- end #menu -->
+      </div>
+
+      <div id="wrapper">
+        <div id="header-wrapper">
+          <div id="header">
+            <div id="logo">
+              <h1 class="h1_title">Sport News</h1>
+            </div>
+          </div>
+        </div>
+
+        <div id="page">
+          <div id="page-bgtop">
+            <div id="page-bgbtm">
+              <div id="content">
+                <div class="post">
+                  {% if 'FOTBAL' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Fotbal</h1>
+                      <img src="{% static 'images/football.png' %}" class="img_category"/>
+                    </div>
+                  {% elif 'HANDBAL' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Handbal</h1>
+                      <img src="{% static 'images/handball.png' %}" class="img_category"/>
+                    </div>
+                  {% elif 'TENIS' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Tenis</h1>
+                      <img src="{% static 'images/tennis.png' %}" class="img_category"/>
+                    </div>
+                  {% elif 'BASKET' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Basket</h1>
+                      <img src="{% static 'images/basketball.png' %}" class="img_category"/>
+                    </div>
+                  {% elif 'ALTE_SPORTURI' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Alte sporturi</h1>
+                      <img src="{% static 'images/alte_sporturi.png' %}" class="img_category"/>
+                    </div>
+                  {% elif 'STIRI_EXTERNE' in request.get_full_path %}
+                    <div>
+                      <h1 class="h1_category">Stiri externe</h1>
+                      <img src="{% static 'images/stiri_externe.png' %}" class="img_category"/>
+                    </div>
+                  {% else %}
+                    <div>
+                      <h1 class="h1_category">Cele mai noi stiri</h1>
+                      <img src="{% static 'images/trophy.png' %}" class="img_category"/>
+                    </div>
+                  {% endif %}
+                  <div style="clear: both;">&nbsp;</div>
+                </div>
+
+                {% for post in posts %}
+                <div class="post">
+                  <h2 class="title"><a href="{% url 'post_item' pk=post.pk %}">{{ post.title }}</a></h2>
+                  <p class="meta">Posted by <span>{{ post.author }}</span> on {{ post.published_date }}  &nbsp;&bull;&nbsp;</p>
+                  <div class="entry">
+                    <a href="{% url 'post_item' pk=post.pk %}"><img src="{{ post.image_title.url }}" class="post_img" alt="" /></a></p>
+                    <p>{{ post.text|truncatewords:10|linebreaksbr }}...</p>
+                  </div>
+                </div>
+                {% endfor %}
+                <div style="clear: both;">&nbsp;</div>
+              </div>
+              <div id="sidebar">
+                <ul>
+                  <li>
+                    <h2>Categorii</h2>
+                    <ul>
+                      <li><a href="{% url 'post_list' %}"><div class="container">Cele mai noi stiri</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='FOTBAL' %}"><div class="container">Fotbal</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='TENIS' %}"><div class="container">Tenis</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='HANDBAL' %}"><div class="container">Handbal</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='BASKET' %}"><div class="container">Basket</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='ALTE_SPORTURI' %}"><div class="container">Alte sporturi</div></a></li>
+                      <li><a href="{% url 'post_list_category' category='STIRI_EXTERNE' %}"><div class="container">Stiri externe</div></a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <!-- end #sidebar -->
+              <div style="clear: both;">&nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
